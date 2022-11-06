@@ -1,0 +1,150 @@
+Q: for문을 써서 중복을 줄이는게 좋은 코드일까? 아니면 if를 잘 활용해서 시간을 단축하는게 좋은 코드일까?
+
+#1
+import java.util.*;
+class Solution {
+    public String solution(String[] survey, int[] choices) {
+        // 유형 빈도 (제네릭 형태)
+        Map<Character, Integer> map = new HashMap<>();
+        // 성격 유형 종류 set
+        char[] type = {'R', 'T', 'C', 'F', 'J', 'M', 'A', 'N'};
+        // 성격 유형 결과
+        String answer = "";
+        char c1, c2;
+
+        // 성격 유형에 따른 점수 체크
+        for(int i=0; i<survey.length; i++){
+            c1 = survey[i].charAt(0); // 앞의 유형
+            c2 = survey[i].charAt(1); // 뒤위 유형
+            int score;
+
+            if(choices[i] < 4){ // 앞의 아이 선택
+                score = 4 - choices[i];
+                // 뒤에 아이 자리 생성 (= 초기화)
+                if(!map.containsKey(c2)){
+                    map.put(c2, 0);
+                }
+                // 앞의 아이 값 더해주기
+                if(map.containsKey(c1)){
+                    map.put(c1, map.get(c1) + (score));
+                    continue;
+                }
+                map.put(c1, score);
+            }
+            else if(choices[i] > 4) {// 뒤의 아이 선택
+                score = choices[i] - 4;
+                if(!map.containsKey(c1)){
+                    map.put(c1, 0);
+                }
+                if(map.containsKey(c2)){
+                    map.put(c2, map.get(c2) + score);
+                    continue;
+                }
+                map.put(c2, score);
+            }
+            else{ // 더해줄 값이 X (= 동등)
+                if(map.containsKey(c1) || map.containsKey(c2)){
+                    continue;
+                }
+                map.put(c1, 0);
+                map.put(c2, 0);
+            }
+        }
+        
+        // 성격 분류
+        for(int i=0; i<4; i++){
+            if(map.get(type[i]) == null || map.get(type[i]) >= map.get(type[i*2])){
+                answer+=type[i];
+            }
+            else answer+=type[i*2];
+        }
+        
+        return answer;
+    }
+}
+
+#2
+//성격 분류 부분 for문 제거
+if(map.get('R')==null||map.get('R')>=map.get('T')){
+    answer+="R";
+}
+else{
+    answer+="T";
+}
+
+if(map.get('C')==null||map.get('C')>=map.get('F')){
+    answer+="C";
+}
+else{
+    answer+="F";
+} 
+
+if(map.get('J')==null||map.get('J')>=map.get('M')){
+    answer+="J";
+}
+else{
+    answer+="M";
+}
+    
+if(map.get('A')==null||map.get('A')>=map.get('N')){
+    answer+="A";
+}
+else{
+    answer+="N";
+}
+
+return answer;
+
+#3
+// 값 대입부분 for문 생성
+char [][] type = {{'R', 'T'}, {'C', 'F'}, {'J', 'M'}, {'A', 'N'}};
+int [] score = {0, 3, 2, 1, 0, 1, 2, 3};
+
+// 점수 기록할 배열 초기화 
+for (char[] t : type) {
+    point.put(t[0], 0);
+    point.put(t[1], 0);
+}
+
+// 점수 기록 
+for (int idx = 0; idx < choices.length; idx++){
+    if(choices[idx] > 4){
+        point.put(survey[idx].charAt(1), point.get(survey[idx].charAt(1)) + score[choices[idx]]);
+    } else {
+        point.put(survey[idx].charAt(0), point.get(survey[idx].charAt(0)) + score[choices[idx]]);
+    }
+}
+
+++) 참신했던 다른 사람 코드
+import java.util.HashMap;
+
+class Solution {
+    public String solution(String[] survey, int[] choices) {
+        String answer = "";
+        char [][] type = {{'R', 'T'}, {'C', 'F'}, {'J', 'M'}, {'A', 'N'}};
+        int [] score = {0, 3, 2, 1, 0, 1, 2, 3};
+        HashMap<Character, Integer> point = new HashMap<Character, Integer>();
+
+        // 점수 기록할 배열 초기화 
+        for (char[] t : type) {
+            point.put(t[0], 0);
+            point.put(t[1], 0);
+        }
+
+        // 점수 기록 
+        for (int idx = 0; idx < choices.length; idx++){
+            if(choices[idx] > 4){
+                point.put(survey[idx].charAt(1), point.get(survey[idx].charAt(1)) + score[choices[idx]]);
+            } else {
+                point.put(survey[idx].charAt(0), point.get(survey[idx].charAt(0)) + score[choices[idx]]);
+            }
+        }
+
+        // 지표 별 점수 비교 후 유형 기입
+        for (char[] t : type) {
+            answer += (point.get(t[1]) <= point.get(t[0])) ? t[0] : t[1];
+        }
+
+        return answer;
+    }
+}
