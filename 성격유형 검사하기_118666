@@ -1,5 +1,6 @@
 Q: for문을 써서 중복을 줄이는게 좋은 코드일까? 아니면 if를 잘 활용해서 시간을 단축하는게 좋은 코드일까?
-
+ -> if문으로 속도를 줄이자!!
+ 
 #1
 import java.util.*;
 class Solution {
