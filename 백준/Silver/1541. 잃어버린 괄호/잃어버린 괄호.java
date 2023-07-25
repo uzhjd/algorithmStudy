@@ -5,25 +5,25 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         Scanner sc = new Scanner(System.in);
-        String exp = sc.next();
-        int answer = 0;
-        String[] minus_spl = exp.split("-");
+        String str = sc.nextLine();
+        int result = 0;
+        String[] splitM = str.split("-");
 
-        for(int i = 0; i < minus_spl.length; i++){
-            int sum = 0;
-            String[] plus_spl = minus_spl[i].split("\\+");
+        for(int i = 0; i < splitM.length; i++){
+            int tmp = 0;
+            String[] splitP = splitM[i].split("\\+");
 
-            for(String ps : plus_spl){
-                sum += Integer.parseInt(ps);
+            for(String ps : splitP){
+                tmp += Integer.parseInt(ps);
             }
 
             if(i == 0)
-                answer += sum;
+                result += tmp;
             else
-                answer -= sum;
+                result -= tmp;
         }
 
-        System.out.println(answer);
+        System.out.println(result);
 
         return;
     }
