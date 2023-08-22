@@ -1,64 +1,60 @@
-import java.io.*;
-import java.util.*;
+import java.util.Scanner;
 
 public class Main {
-    
-	public static int white = 0;
-	public static int blue = 0;
-	public static int[][] board;
 
-	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    public static int white = 0;
+    public static int blue = 0;
+    public static int[][] board;
 
-		int N = Integer.parseInt(br.readLine());
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
 
-		board = new int[N][N];
-		StringTokenizer st;
+        int N = Integer.parseInt(sc.nextLine());
 
-		for(int i = 0; i < N; i++) {
-			st = new StringTokenizer(br.readLine(), " ");
+        board = new int[N][N];
 
-			for(int j = 0; j < N; j++) {
-				board[i][j] = Integer.parseInt(st.nextToken());
-			}
-		}
+        for(int i = 0; i < N; i++) {
+            for(int j = 0; j < N; j++) {
+                board[i][j] = Integer.parseInt(sc.next());
+            }
+        }
 
-		partition(0, 0, N);
+        partition(0, 0, N);
 
-		System.out.println(white);
-		System.out.println(blue);
-	}
+        System.out.println(white);
+        System.out.println(blue);
 
-	public static void partition(int row, int col, int size) {
-		if(colorCheck(row, col, size)) {
-			if(board[row][col] == 0) {
-				white++;
-			}
-			else {
-				blue++;
-			}
-			return;
-		}
+        return ;
+    }
 
-		int newSize = size / 2;
-        
-		partition(row, col, newSize);						
-		partition(row, col + newSize, newSize);			
-		partition(row + newSize, col, newSize);				
-		partition(row + newSize, col + newSize, newSize);	
-	}
+    public static void partition(int row, int col, int size) {
+        if(colorCheck(row, col, size)) {
+            if(board[row][col] == 0) {
+                white++;
+            } else {
+                blue++;
+            }
+            return;
+        }
 
-	public static boolean colorCheck(int row, int col, int size) {
-		int color = board[row][col];
+        int halfSize = size / 2;
 
-		for(int i = row; i < row + size; i++) {
-			for(int j = col; j < col + size; j++) {
-				if(board[i][j] != color) {
-					return false;
-				}
-			}
-		}
-        
-		return true;
-	}
+        partition(row, col, halfSize);
+        partition(row, col + halfSize, halfSize);
+        partition(row + halfSize, col, halfSize);
+        partition(row + halfSize, col + halfSize, halfSize);
+    }
+
+    public static boolean colorCheck(int row, int col, int size) {
+        int color = board[row][col];
+
+        for(int i = row; i < row + size; i++) {
+            for(int j = col; j < col + size; j++) {
+                if(board[i][j] != color) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 }
