@@ -1,6 +1,6 @@
-# [level 3] 이중우선순위큐 - 42628 
+# [level 1] 같은 숫자는 싫 - 12906 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/42628) 
+[문제 링크]([https://school.programmers.co.kr/learn/courses/30/lessons/42628](https://school.programmers.co.kr/learn/courses/30/lessons/12906)) 
 
 ### 성능 요약
 
