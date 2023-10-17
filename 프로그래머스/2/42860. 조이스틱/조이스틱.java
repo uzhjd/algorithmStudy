@@ -19,7 +19,7 @@ class Solution {
             
             // 지금까지의 이동 중 가장 짧은 거 vs i지점에서 꺽어서 뒤로 구하는 것
             moves = Math.min(moves, i * 2 + name.length() - index);
-            // 앞에서 부터 꺽어야 할 경우를 생각하기
+            // 꺽고 시작하는게 빠를 수도 있는 경우 체크 e.g.) BBBBBBAAAAAAAB
             moves = Math.min(moves, (name.length()-index)*2 + i);
         }
         
