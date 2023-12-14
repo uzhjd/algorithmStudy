@@ -3,19 +3,19 @@ class Solution {
         int[] answer = new int[2];
         int total = brown + yellow;
         
-        for(int i = 3; i < total; i ++) {
-            int h = i;
-            int w = total / i;
+        for(int i = 3; i < total; i++) {
+            int w = i;
+            int h = total / i;
             
-            if(w < h) continue;
+            if(w > h) continue;
             
             if((w - 2) * (h - 2) == yellow) {
-                answer[0] = w;
-                answer[1] = h;
-                
-                return answer;
+                answer[0] = h;
+                answer[1] = w;
+                break;
             }
         }
+        
         return answer;
     }
 }
