@@ -30,9 +30,9 @@ class Solution {
         
         makeNum("", numbers);
         
-        Iterator<Integer> it = set.iterator();
-        while(it.hasNext()) {
-            if(isPrime(it.next()))
+        
+        for(int n : set) {
+            if(isPrime(n))
                 answer++;
         }
         
