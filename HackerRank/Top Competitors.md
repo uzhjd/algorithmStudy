@@ -1,4 +1,5 @@
 ### #Basic Join #medium
+### Top Competitors
 
 ``` mysql
 SELECT s.hacker_id, h.name
