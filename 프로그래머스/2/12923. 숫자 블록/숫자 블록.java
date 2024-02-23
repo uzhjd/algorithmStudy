@@ -22,19 +22,20 @@ class Solution {
             return 0;
         }
 
-        List<Integer> l = new ArrayList<>();
+        List<Integer> list = new ArrayList<>();
 
         for (int i = 2; i <= Math.floor(Math.sqrt(x)); i++) {
             if (x % i == 0) {
-                l.add(i);
+                list.add(i);
                 if (x / i <= 10_000_000) {
                     return x/i;
                 }
             }
 
         }
-        if (!l.isEmpty()) {
-            return l.get(l.size() - 1);
+        
+        if (!list.isEmpty()) {
+            return list.get(list.size() - 1);
         }
 
         return 1;
