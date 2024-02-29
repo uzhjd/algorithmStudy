@@ -1,3 +1,5 @@
+### 쉬움
+
 ```mysql
 select name, population, area
 from World
