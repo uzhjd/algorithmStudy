@@ -1,3 +1,5 @@
+### 해봐도 될 듯(함수 사용)
+
 ```mysql
 select tweet_id
 from Tweets
