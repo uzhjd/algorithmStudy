@@ -1,3 +1,5 @@
+### 해봐!!
+
 ```sql
 select stu.student_id, stu.student_name, sub.subject_name, count(e.student_id) as attended_exams
 from Students stu
