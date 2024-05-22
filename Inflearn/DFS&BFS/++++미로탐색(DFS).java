@@ -2,7 +2,6 @@ import java.util.*;
 
 public class DFS {
 
-    static boolean[][] check;
     static int[][] board;
     static int cnt = 0;
 
