@@ -1,25 +1,30 @@
 import java.util.*;
-import java.io.*;
 
 public class Main {
-	
-	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		String A = st.nextToken();
-		String B = st.nextToken();
-		int result = 50;
-		
-		for(int i = 0; i <= (B.length() - A.length()); i++) {
-			int count = 0;
-			for(int j = 0; j < A.length(); j++) {
-				if(A.charAt(j) != B.charAt(j + i)) {
-					count++;
+
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+
+		String[] str = sc.nextLine().split(" ");
+		String str1 = str[0];
+		String str2 = str[1];
+
+		int min = Integer.MAX_VALUE;
+
+		int T = str2.length() - str1.length();
+		for(int i = 0; i <= T; i++) {
+			int tmp = 0;
+
+			for(int j = 0; j < str1.length(); j++) {
+				if(str1.charAt(j) != str2.charAt(j + i)) {
+					tmp++;
 				}
 			}
-			result = Math.min(result, count);
+			min = Math.min(min, tmp);
 		}
-		System.out.println(result);
-	}
 
+		System.out.println(min);
+
+		return;
+	}
 }
