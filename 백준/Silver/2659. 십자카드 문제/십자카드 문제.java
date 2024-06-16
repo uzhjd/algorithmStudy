@@ -1,30 +1,28 @@
-import java.io.*;
 import java.util.*;
 
-public class Main {
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+class Main {
 
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        int a = Integer.parseInt(st.nextToken());
-        int b = Integer.parseInt(st.nextToken());
-        int c = Integer.parseInt(st.nextToken());
-        int d = Integer.parseInt(st.nextToken());
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int answer = 0;
+
+        int a = sc.nextInt();
+        int b = sc.nextInt();
+        int c = sc.nextInt();
+        int d = sc.nextInt();
 
         int min = getMin(a, b, c, d);
 
-        boolean[] clock_num = getClockNum();
+        boolean[] check = getClockNum();
 
-        int answer = 0;
-        for (int i = 1111; i <= min; i++) {
-            if (clock_num[i]) {
+        for(int i = 1111; i <= min; i++) {
+            if(check[i]) {
                 answer++;
             }
         }
 
         System.out.println(answer);
     }
-
     public static boolean[] getClockNum() {
         boolean[] visit = new boolean[10000];
 
@@ -32,11 +30,9 @@ public class Main {
             for (int b = 1; b < 10; b++) {
                 for (int c = 1; c < 10; c++) {
                     for (int d = 1; d < 10; d++) {
-                        int n = getMin(a, b, c, d);
+                        int min = getMin(a, b, c, d);
 
-                        if (!visit[n]) {
-                            visit[n] = true;
-                        }
+                        visit[min] = true;
                     }
                 }
             }
