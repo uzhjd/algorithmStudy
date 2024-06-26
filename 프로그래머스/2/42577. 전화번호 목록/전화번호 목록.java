@@ -2,18 +2,20 @@ import java.util.*;
 
 class Solution {
     public boolean solution(String[] phone_book) {
-        HashMap<String, Integer> map = new HashMap<>();
-        
-        for(int i = 0; i < phone_book.length; i++) {
-            map.put(phone_book[i], i);
+        Set<String> set = new HashSet<>();
+        for(String s : phone_book) {
+            set.add(s);
         }
         
-        for(String s : phone_book) {
-            for(int i = 1; i < s.length(); i++) {
-                if(map.containsKey(s.substring(0, i)))
+        for(String s : phone_book) {            
+            for(int j = 1; j < s.length(); j++) {
+                
+                if(set.contains(s.substring(0, j))) {
                     return false;
+                }
             }
         }
+            
         
         return true;
     }
