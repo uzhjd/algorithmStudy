@@ -1,71 +1,75 @@
+import java.io.*;
 import java.util.*;
 
-public class Main {
+class Main {
 
-    static int[][] board;
-    static boolean[] check;
-    static int N;
-    static int answer = Integer.MAX_VALUE;
+    public static int[][] board;
+    public static boolean[] check;
+    public static int N;
+    public static int answer = Integer.MAX_VALUE;
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        N = sc.nextInt();
+        N = Integer.parseInt(br.readLine());
         board = new int[N][N];
         check = new boolean[N];
 
-        for(int i = 0; i < N; i++) {
+        for(int i = 0; i < N; i ++) {
+            StringTokenizer st = new StringTokenizer(br.readLine());
             for(int j = 0; j < N; j++) {
-                board[i][j] = sc.nextInt();
+                board[i][j] = Integer.parseInt(st.nextToken());
             }
         }
 
-        comb(0, 0);
+        setTeam(0, 0);
 
         System.out.println(answer);
-
-        return;
     }
 
-    static public void comb(int idx, int L) {
-        if(L == N / 2) {
-            dfs();
-
-            return;
+    static public void setTeam(int s, int cnt) {
+        if(cnt == N/2) {
+            answer = Math.min(answer, calc());
+            
         }
+        if(s >= N) return;
 
-        for(int i = idx; i < N; i++) {
-            if(!check[i]) {
-                check[i] = true;
-                comb(i + 1, L + 1);
-                check[i] = false;
-            }
+        for(int i = s; i < N; i++) {
+            check[i] = true;
+            setTeam(i + 1, cnt + 1);
+            check[i] = false;
         }
     }
 
-    static public void dfs() {
-        int star = 0;
-        int link = 0;
+    static public int calc() {
+        int[] teamA = new int[N/2];
+        int[] teamB = new int[N/2];
+        int cntA = 0;
+        int cntB = 0;
 
-        for(int i = 0; i < N - 1; i++) {
-            for(int j = i + 1; j < N; j++) {
-                if(check[i] && check[j]) {
-                    star += board[i][j];
-                    star += board[j][i];
-                } else if(!check[i] && !check[j]) {
-                    link += board[i][j];
-                    link += board[j][i];
-                }
+        for(int i = 0; i < N; i++) {
+            if(check[i]) teamA[cntA++] = i;
+            else teamB[cntB++] = i;
+        }
+
+        int sumA = 0;
+        for(int i = 0; i < N/2 - 1; i++) {
+            for(int j = i + 1; j < N/2; j++) {
+                int a = teamA[i];
+                int b = teamA[j];
+                sumA += board[a][b] + board[b][a];
             }
         }
 
-        int dif = Math.abs(star - link);
-        if(dif == 0) {
-            System.out.println(0);
-            System.exit(0);
+        int sumB = 0;
+        for(int i = 0; i < N/2 - 1; i++) {
+            for(int j = i + 1; j < N/2; j++) {
+                int a = teamB[i];
+                int b = teamB[j];
+                sumB += board[a][b] + board[b][a];
+            }
         }
-
-        answer = Math.min(answer, dif);
-        return;
+        
+        return Math.abs(sumA - sumB);
     }
 }
