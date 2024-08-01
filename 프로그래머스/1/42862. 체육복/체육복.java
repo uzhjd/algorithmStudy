@@ -2,35 +2,36 @@ import java.util.*;
 
 class Solution {
     public int solution(int n, int[] lost, int[] reserve) {
-        int answer = n - lost.length;
+        int cnt = 0;
         
         Arrays.sort(lost);
         Arrays.sort(reserve);
         
-        
         for(int i = 0; i < lost.length; i++) {
             for(int j = 0; j < reserve.length; j++) {
                 if(lost[i] == reserve[j]) {
-                    reserve[j] = -1;
+                    cnt++;
                     lost[i] = -1;
-                    answer++;
+                    reserve[j] = -1;
                     break;
                 }
+                if(lost[i] < reserve[j]) break;
             }
         }
+        
         for(int i = 0; i < lost.length; i++) {
             for(int j = 0; j < reserve.length; j++) {
-                if(lost[i] - 1 == reserve[j] || lost[i] + 1 == reserve[j]) {
-                    answer++;
-        System.out.println(reserve[j]);
-                    
+                int l = lost[i];
+                int r = reserve[j];
+                
+                if(l == r - 1 || l == r + 1) {
+                    cnt++;
                     reserve[j] = -1;
                     break;
-                    
                 }
             }
         }
         
-        return answer;
+        return n - lost.length + cnt;
     }
 }
