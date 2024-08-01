@@ -1,39 +1,45 @@
+import java.util.*;
+
 class Solution {
-    int answer = 0;
-    static boolean[] visit;
     
-    public void DFS(String[] words, String now, String target, int cnt) {
-        if(now.equals(target)) {
-            answer = cnt;
+    Set<String> set = new HashSet<>();
+    int len;
+    int answer = Integer.MAX_VALUE;
+    
+    public void DFS(String[] words, String begin, String target, int cnt) {
+        if(begin.equals(target)) {
+            answer = Math.min(answer, cnt);
             return;
         }
         
-        for(int i = 0; i < words.length; i++) {
-            
-            if(visit[i] == true)
+        for(String s : words) {
+            if(set.contains(s))
                 continue;
             
-            
             int k = 0;
-            for(int j = 0; j < words[i].length(); j++) {
-                if(words[i].charAt(j) != now.charAt(j))
+            
+            for(int i = 0; i < len; i++) {
+                if(s.charAt(i) != begin.charAt(i)) {
                     k++;
+                }
             }
             
             if(k == 1) {
-                visit[i] = true;
-                DFS(words, words[i], target, cnt + 1);
-                visit[i] = false;
+                set.add(s);
+                DFS(words, s, target, cnt + 1);
+                set.remove(s);
             }
         }
         
     }
     
-    
     public int solution(String begin, String target, String[] words) {
-        visit = new boolean[words.length];
+        len = begin.length();
         
+        set.add(begin);
         DFS(words, begin, target, 0);
+        
+        if(answer > 60) answer = 0;
         
         return answer;
     }
