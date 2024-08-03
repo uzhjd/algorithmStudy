@@ -2,62 +2,84 @@ import java.util.*;
 
 public class Solution {
 
-    static class Music{
+    static class album implements Comparable<album> {
         String genre;
-        int play;
-        int idx;
+        int play, num;
 
-        public Music(String genre, int play, int idx) {
+        album(String genre, int play, int num) {
             this.genre = genre;
             this.play = play;
-            this.idx = idx;
+            this.num = num;
+        }
+
+        public int compareTo(album a) {
+            if(a.genre.equals(this.genre)) return a.play - this.play;
+            return a.genre.compareTo(this.genre);
         }
     }
-
+    
     public static int[] solution(String[] genres, int[] plays) {
-
         HashMap<String, Integer> map = new HashMap<>();
-        for(int i=0; i<genres.length; i++){
-            map.put(genres[i], map.getOrDefault(genres[i], 0)+plays[i]);
+        LinkedList<album> albums = new LinkedList<>();
+        
+        for(int i = 0; i < genres.length; i++) {
+            String g = genres[i];
+            int p = plays[i];
+            
+            map.put(g, map.getOrDefault(g, 0) + p);
+            albums.add(new album(g, p, i));
         }
-
-        // 1. 장르 선정
-        ArrayList<String> genres_ordered = new ArrayList<>();
-        while(map.size()!=0){
-            int max = -1;
-            String max_key = "";
-            for(String key : map.keySet()){
-                int tmp_cnt = map.get(key);
-                if(tmp_cnt>max){
-                    max = tmp_cnt;
-                    max_key = key;
+        
+        String[] gen = new String[map.size()];
+        int k = 0;
+        
+        while(map.size() != 0) {
+            int max = 0;
+            String g = "";
+            
+            for(String s : map.keySet()) {
+                max = Math.max(max, map.get(s));
+                if(map.get(s) == max) {
+                    g = s;
+                    gen[k] = g;
                 }
             }
-            genres_ordered.add(max_key);
-            map.remove(max_key);
+            k++;
+            map.remove(g);
+            System.out.println(g);
+            System.out.println(max);
         }
-		
-        // 2. 장르 내 노래 선정
-        ArrayList<Music> result = new ArrayList<>();
-        for(String gern : genres_ordered){
-            ArrayList<Music> list = new ArrayList<>();
-            for(int i=0; i<genres.length; i++){
-                if(genres[i].equals(gern)){
-                    list.add(new Music(gern, plays[i], i));
-                }
-            }
-            Collections.sort(list, (o1, o2) -> o2.play - o1.play); // 내림차순 소팅
-            result.add(list.get(0)); 	// 1개는 무조건 수록
-            if(list.size()!=1){ 	// 더 수록할 곡이 있으면(==장르 내의 노래가 1개보다 많으면) 수록
-                result.add(list.get(1));
+        
+//             System.out.println();
+//             System.out.println();
+//             System.out.println();
+        LinkedList<Integer> tmp = new LinkedList<>();
+        
+        Collections.sort(albums);
+        // for(album a : albums) {
+        //     System.out.print(a.genre + " " + a.play + " " + a.num);
+        //     System.out.println();
+        // }
+        
+        for(int i = 0; i < gen.length; i++) {
+            int cnt = 0;
+            
+            for(int j = 0; j < albums.size(); j++) {
+                if(!gen[i].equals(albums.get(j).genre)) continue;
+                if(cnt >= 2) break;
+                
+                tmp.add(albums.get(j).num);
+                cnt++;
+            // System.out.println(gen[i]);
+            // System.out.println(albums.get(j).genre);
+            // System.out.println(albums.get(j).num);
             }
         }
         
+        int[] answer = new int[tmp.size()];
+        for(int i = 0; i < tmp.size(); i++)
+            answer[i] = tmp.get(i);
         
-        int[] answer = new int[result.size()];
-        for(int i=0; i<result.size(); i++){
-            answer[i] = result.get(i).idx;
-        }
         return answer;
     }
 }
