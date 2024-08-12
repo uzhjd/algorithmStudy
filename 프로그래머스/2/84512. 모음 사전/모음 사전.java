@@ -3,12 +3,13 @@ import java.util.*;
 class Solution {
     
     public int solution(String word) {
-        int answer = word.length();
-        String vowels = "AEIOU";
-        int[] change = new int[]{781, 156, 31, 6, 1};
+        int answer = 0;
+        String dir = "AEIOU";
+        int[] order = new int[]{781, 156, 31, 6, 1};
         
-        for(int i = 0; i < word.length(); i++) {
-            answer += change[i] * vowels.indexOf(word.charAt(i));
+        int len = word.length();
+        for(int i = 0; i < len; i++) {
+            answer += (dir.indexOf(word.charAt(i)) * order[i]) + 1;
         }
         
         return answer;
