@@ -1,23 +1,17 @@
+import java.util.*;
+
 class Solution {
+    
     public String solution(String number, int k) {
         StringBuilder sb = new StringBuilder();
-        int start = 0;
-        int next = 0;
-        
-        for(int i = 0; i < number.length() - k; i++) {
-            int max = 0;
-            
-            for(int j = start; j <= i + k; j++) {
-                if(max < number.charAt(j) - '0') {
-                    max = number.charAt(j) - '0';
-                    next = j;
-                }
+        int len = number.length() - k;  // 최종 문자열의 길이
+        for (int i = 0; i < number.length(); i++) {
+            while (k > 0 && sb.length() > 0 && sb.charAt(sb.length() - 1) < number.charAt(i)) {
+                sb.deleteCharAt(sb.length() - 1);
+                k--;
             }
-            
-            sb.append(max);
-            start = next + 1;
+            sb.append(number.charAt(i));
         }
-        
-        return sb.toString();
+        return sb.substring(0, len).toString();  // len 만큼 잘라서 반환
     }
 }
