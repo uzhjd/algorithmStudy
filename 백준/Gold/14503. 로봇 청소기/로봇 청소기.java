@@ -22,8 +22,6 @@ class Main {
         int x = Integer.parseInt(st.nextToken());;
         int dir = Integer.parseInt(st.nextToken());
 
-        answer = 1;
-
         for(int i = 0; i < N; i++) {
             st = new StringTokenizer(br.readLine());
 
@@ -32,6 +30,7 @@ class Main {
             }
         }
 
+        answer = 1;
         DFS(x, y, dir);
 
         System.out.println(answer);
@@ -43,10 +42,9 @@ class Main {
         map[y][x] = -1;
 
         for(int i = 0; i < 4; i ++) {
-//            dir--;
-//            if (dir == -1) dir = 3;
+            dir--;
+            if (dir == -1) dir = 3;
 
-dir = (dir + 3) % 4;
             int nx = x + dx[dir];
             int ny = y + dy[dir];
 
@@ -58,11 +56,8 @@ dir = (dir + 3) % 4;
             }
         }
 
-//        dir++;
-//        if (dir == 4) dir = 0;
-        int back = (dir + 2) % 4;
-        int bx = x + dx[back];
-        int by = y + dy[back];
+        int bx = x + dx[dir] * (-1);
+        int by = y + dy[dir] * (-1);
 
         if(by>=0 && by<N && bx>=0 && bx<M && map[by][bx] != 1) DFS(bx,by,dir);
     }
