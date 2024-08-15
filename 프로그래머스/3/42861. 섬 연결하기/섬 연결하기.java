@@ -1,36 +1,55 @@
 import java.util.*;
 
 class Solution {
-    static int [] parent;
-    
+    static int[] parent;
+
     public int solution(int n, int[][] costs) {
         int answer = 0;
         parent = new int[n];
         
-        for(int i = 0; i < n; i++)
+        // Union-Find 구조 초기화
+        for (int i = 0; i < n; i++) {
             parent[i] = i;
+        }
         
-        Arrays.sort(costs, (int[]c1, int[]c2) -> c1[2] - c2[2]);
+        // 비용을 기준으로 간선 정렬
+        Arrays.sort(costs, new Comparator<int[]>() {
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o1[2], o2[2]);
+            }
+        });
         
-        for(int[] node : costs) {
-            int from = node[0];
-            int to = node[1];
-            int cost = node[2];
+        for (int i = 0; i < costs.length; i++) {
+            int a = costs[i][0];
+            int b = costs[i][1];
+            int cost = costs[i][2];
             
-            int fromParent = Parent(from);
-            int toParent = Parent(to);
-            // 사이클 생성 방지
-            if(fromParent == toParent) continue;
-            
-            answer += cost;
-            parent[toParent] = fromParent;
+            // 두 노드가 같은 집합에 있지 않은 경우에만 간선 추가
+            if (find(a) != find(b)) {
+                union(a, b);
+                answer += cost;
+            }
         }
         
         return answer;
     }
-    
-    public int Parent(int node) {
-        if(node == parent[node]) return node;
-        return parent[node] = Parent(parent[node]);
+
+    // Find 연산
+    private int find(int x) {
+        if (parent[x] == x) {
+            return x;
+        }
+        return parent[x] = find(parent[x]);
+    }
+
+    // Union 연산
+    private void union(int x, int y) {
+        int rootX = find(x);
+        int rootY = find(y);
+        
+        if (rootX != rootY) {
+            parent[rootY] = rootX;
+        }
     }
 }
