@@ -2,29 +2,31 @@ import java.util.*;
 
 class Solution {
     public int solution(int[] priorities, int location) {
-        Queue<Integer> que = new LinkedList<>();
-        PriorityQueue<Integer> dq = new PriorityQueue<>(Collections.reverseOrder());
+        Queue<Integer> que = new LinkedList<Integer>();
+        PriorityQueue<Integer> pq = new PriorityQueue<Integer>(Collections.reverseOrder());
         int cnt = 0;
         
         for(int n : priorities) {
             que.add(n);
-            dq.add(n);
+            pq.add(n);
         }
         
+        
         while(!que.isEmpty()) {
-            if(que.peek() == dq.peek()) {
+            int n = que.poll();
+            
+            if(pq.peek() == n) {
                 cnt++;
-                que.poll();
-                dq.poll();
+                
                 if(location == 0) return cnt;
-                location--;
-                if(location < 0) location = que.size() - 1;
+                else pq.poll();
+                
             } else {
-                int n = que.poll();
                 que.add(n);
-                location--;
-                if(location < 0) location = que.size() - 1;
             }
+            
+            if(location == 0) location = que.size() - 1;
+            else location--;
         }
         
         return -1;
