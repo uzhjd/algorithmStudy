@@ -9,10 +9,14 @@ class Solution {
             map.put(str[1], map.getOrDefault(str[1], 0) + 1);
         }
         
-        Iterator<Integer> it = map.values().iterator();
-        while(it.hasNext()) {
-            answer *= it.next().intValue() + 1;
+       for (Integer value : map.values()) {
+            answer *= value +1;
         }
+        
+        // Iterator<Integer> it = map.values().iterator();
+        // while(it.hasNext()) {
+        //     answer *= it.next().intValue() + 1;
+        // }
         
         return answer - 1;
     }
