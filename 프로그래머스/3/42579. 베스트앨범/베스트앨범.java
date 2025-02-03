@@ -1,84 +1,59 @@
 import java.util.*;
 
 public class Solution {
-
-    static class album implements Comparable<album> {
+    static HashMap<String, Integer> map;
+    
+    static class albums implements Comparable<albums> {
         String genre;
-        int play, num;
-
-        album(String genre, int play, int num) {
+        int play, idx;
+        
+        albums(String genre, int play, int idx) {
             this.genre = genre;
             this.play = play;
-            this.num = num;
+            this.idx = idx;
         }
-
-        public int compareTo(album a) {
-            if(a.genre.equals(this.genre)) return a.play - this.play;
-            return a.genre.compareTo(this.genre);
+        
+        @Override
+        public int compareTo(albums a) {
+            int o1 = map.get(a.genre);
+            int o2 = map.get(this.genre);
+            
+            if(o1 == o2) {
+                if(a.play == this.play) return this.idx - a.idx;
+                else return a.play - this.play;
+            }
+            return o1 - o2;
         }
     }
     
     public static int[] solution(String[] genres, int[] plays) {
-        HashMap<String, Integer> map = new HashMap<>();
-        LinkedList<album> albums = new LinkedList<>();
+        int n = genres.length;
+        albums[] album = new albums[n];
+        map = new HashMap<>();
         
-        for(int i = 0; i < genres.length; i++) {
-            String g = genres[i];
-            int p = plays[i];
-            
-            map.put(g, map.getOrDefault(g, 0) + p);
-            albums.add(new album(g, p, i));
+        for(int i = 0; i < n; i++) {
+            map.put(genres[i], map.getOrDefault(genres[i], 0) + plays[i]);
+            album[i] = new albums(genres[i], plays[i], i);
         }
         
-        String[] gen = new String[map.size()];
-        int k = 0;
-        
-        while(map.size() != 0) {
-            int max = 0;
-            String g = "";
-            
-            for(String s : map.keySet()) {
-                max = Math.max(max, map.get(s));
-                if(map.get(s) == max) {
-                    g = s;
-                    gen[k] = g;
-                }
+        Arrays.sort(album);
+        LinkedList<Integer> list = new LinkedList<>();
+        HashMap<String, Integer> rMap = new HashMap<>();
+        for(albums a : album) {
+            String g = a.genre;
+            if(rMap.getOrDefault(g, 0) < 2){
+                list.add(a.idx);
+                rMap.put(g, rMap.getOrDefault(g, 0) + 1);
             }
-            k++;
-            map.remove(g);
-            System.out.println(g);
-            System.out.println(max);
+        
         }
         
-//             System.out.println();
-//             System.out.println();
-//             System.out.println();
-        LinkedList<Integer> tmp = new LinkedList<>();
+        System.out.println(list.size());
         
-        Collections.sort(albums);
-        // for(album a : albums) {
-        //     System.out.print(a.genre + " " + a.play + " " + a.num);
-        //     System.out.println();
-        // }
-        
-        for(int i = 0; i < gen.length; i++) {
-            int cnt = 0;
-            
-            for(int j = 0; j < albums.size(); j++) {
-                if(!gen[i].equals(albums.get(j).genre)) continue;
-                if(cnt >= 2) break;
-                
-                tmp.add(albums.get(j).num);
-                cnt++;
-            // System.out.println(gen[i]);
-            // System.out.println(albums.get(j).genre);
-            // System.out.println(albums.get(j).num);
-            }
+        int[] answer = new int[list.size()];
+        for(int i = 0; i < list.size(); i++) {
+            answer[i] = list.get(i);
         }
-        
-        int[] answer = new int[tmp.size()];
-        for(int i = 0; i < tmp.size(); i++)
-            answer[i] = tmp.get(i);
         
         return answer;
     }
