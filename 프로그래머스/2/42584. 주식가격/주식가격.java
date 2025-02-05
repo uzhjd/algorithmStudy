@@ -1,17 +1,22 @@
 class Solution {
     public int[] solution(int[] prices) {
-        int[] answer = new int[prices.length];
+        int len = prices.length;
+        int[] answer = new int[len];
         
-        for(int i = 0; i < prices.length - 1; i++) {
+        for(int i = 0; i < len - 1; i++) {
             int n = prices[i];
+            int cnt = 0;
             
-            for(int j = i + 1; j < prices.length; j++) {
-                answer[i]++;
-                if(n > prices[j]) break;
+            for(int j = i + 1; j < len; j++) {
+                cnt++;
+                if(n > prices[j]) {
+                    answer[i] = cnt;
+                    break;
+                }
+                else if(j == len-1) answer[i] = cnt;
             }
         }
         
         return answer;
     }
-
 }
