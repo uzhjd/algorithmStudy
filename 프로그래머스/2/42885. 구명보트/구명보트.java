@@ -2,17 +2,23 @@ import java.util.*;
 
 class Solution {
     public int solution(int[] people, int limit) {
+        int len = people.length;
         int answer = 0;
         int L = 0;
-        int R = people.length - 1;
+        int R = len - 1;
         
         Arrays.sort(people);
         
         while(L <= R) {
-            if(people[R] + people[L] <= limit) L++;
-            
-            R--;
             answer++;
+            
+            if(L == R) break;
+            if(people[L] + people[R] <= limit) {
+                L++;
+                R--;
+            } else {
+                R--;
+            }
         }
         
         return answer;
