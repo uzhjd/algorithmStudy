@@ -2,23 +2,35 @@ import java.util.*;
 
 class Solution {
     public int[] solution(String[] operations) {
-        LinkedList<Integer> list = new LinkedList<>(); // 정렬된 리스트 사용
-
-        for (String s : operations) {
-            if (s.charAt(0) == 'I') { // 삽입 연산
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        PriorityQueue<Integer> rq = new PriorityQueue<>(Collections.reverseOrder());
+        
+        for(String s : operations) {            
+            if(s.charAt(0) == 'I') {
                 int n = Integer.parseInt(s.substring(2));
-                list.add(n);
-                Collections.sort(list); // 항상 정렬 유지
-            } else if (!list.isEmpty()) { // 삭제 연산
-                if (s.charAt(2) == '1') { // 최댓값 삭제
-                    list.removeLast();
-                } else { // 최솟값 삭제
-                    list.removeFirst();
+                pq.add(n);
+                rq.add(n);
+            } else {
+                if(s.charAt(2) == '1' && !rq.isEmpty()) {
+                    int t = rq.poll();
+                    pq.remove(t);
+                } else if (s.charAt(2) == '-' && !pq.isEmpty()){
+                    int t = pq.poll();
+                    rq.remove(t);
                 }
             }
         }
-
-        if (list.isEmpty()) return new int[]{0, 0};
-        return new int[]{list.getLast(), list.getFirst()};
+        
+        int[] answer = new int[2];
+        if(pq.isEmpty() && rq.isEmpty()) {
+            answer[0] = 0;
+            answer[1] = 0;
+        }
+        else {
+            answer[0] = rq.poll();
+            answer[1] = pq.poll();
+        }
+        
+        return answer;
     }
 }
