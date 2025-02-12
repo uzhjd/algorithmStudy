@@ -7,15 +7,15 @@ class Solution {
         int len = number.length() - k;
         
         for(int i = 0; i < number.length(); i++) {
-            while(k > 0 && sb.length() > 0 && number.charAt(i) > sb.charAt(sb.length() - 1)) {
-                sb.deleteCharAt(sb.length() - 1);
+            Character c = number.charAt(i);
+            while(k > 0 && sb.length() > 0 && c > sb.charAt(sb.length() - 1)) {
                 k--;
+                sb.deleteCharAt(sb.length()-1);
             }
             
-            sb.append(number.charAt(i));
+            sb.append(c);
         }
         
         return sb.substring(0, len).toString();
-        // return sb.toString();
     }
 }
