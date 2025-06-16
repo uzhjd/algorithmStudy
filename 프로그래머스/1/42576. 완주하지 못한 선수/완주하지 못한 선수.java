@@ -2,16 +2,17 @@ import java.util.*;
 
 class Solution {
     public String solution(String[] participant, String[] completion) {
+        int len = completion.length;
+        
         Arrays.sort(participant);
         Arrays.sort(completion);
         
-        int n = completion.length;
-        for(int i = 0; i < n; i++) {
-            String par = participant[i];
-            if(par.equals(completion[i])) continue;
-            return par;
+        for(int i = 0; i < len; i++) {
+            if(!participant[i].equals(completion[i])) {
+                return participant[i];
+            }
         }
         
-        return participant[n];
+        return participant[participant.length-1];
     }
 }
