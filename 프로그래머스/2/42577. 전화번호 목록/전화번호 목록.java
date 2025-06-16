@@ -8,11 +8,14 @@ class Solution {
             set.add(str);
         }
         
-        for(String str : phone_book) {
-            int n = str.length();
+        for(int i = 0; i < phone_book.length; i++) {
+            int end = phone_book[i].length();
             
-            for(int i = 1; i < n; i++) {
-                if(set.contains(str.substring(0, i))) return false;
+            for(int j = 1; j < end; j++) {
+                if(set.contains(phone_book[i].substring(0, j))){
+                    System.out.println(phone_book[i].substring(0, j));
+                    return false;
+                }
             }
         }
         
