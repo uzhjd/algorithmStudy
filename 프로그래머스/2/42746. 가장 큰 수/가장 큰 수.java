@@ -2,28 +2,26 @@ import java.util.*;
 
 class Solution {
     public String solution(int[] numbers) {
-        int n = numbers.length;
-        String[] str = new String[n];
-        String answer = "";
+        int len = numbers.length;
+        String[] str = new String[len];
         
-        for(int i = 0; i < n; i++) {
-            str[i] = numbers[i] + "";
-        }
+        for(int i = 0; i < len; i++)
+            str[i] = String.valueOf(numbers[i]);
         
-        Arrays.sort(str, new Comparator<> () {
+        Arrays.sort(str, new Comparator<>() {
             @Override
             public int compare(String s1, String s2) {
-                int o1 = Integer.parseInt(s2 + s1);
-                int o2 = Integer.parseInt(s1 + s2);
-                return o1 - o2;
+                int o1 = Integer.parseInt(s1 + s2);
+                int o2 = Integer.parseInt(s2 + s1);
+                return o2 - o1;
             }
         });
         
-        for(int i = 0; i < n; i++) {
-            answer += str[i];
-        }
         
-        if(answer.charAt(0) == '0') answer = "0";
+        String answer = "";
+        for(String s : str) answer += s;
+        
+        if(answer.charAt(0) == '0') return "0";
         
         return answer;
     }
