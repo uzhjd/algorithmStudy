@@ -5,17 +5,16 @@ public class Solution {
         Stack<Integer> stack = new Stack<>();
         
         stack.add(arr[0]);
-        for(int i = 1; i < arr.length; i++) {
-            int n = arr[i];
-            if(stack.peek() == n) continue;
-            stack.add(n);
+        for(int n : arr) {
+            if(stack.peek() != (n)) {
+                stack.add(n);
+            }
         }
         
-        int size = stack.size();
-        int[] answer = new int[size];
-        for(int i = size - 1; i >= 0; i--) {
-            answer[i] = stack.pop();
-        }
+        int len = stack.size();
+        int[] answer = new int[len];
+        int cnt = len - 1;
+        while(!stack.isEmpty()) answer[cnt--] = stack.pop();
         
         return answer;
     }
