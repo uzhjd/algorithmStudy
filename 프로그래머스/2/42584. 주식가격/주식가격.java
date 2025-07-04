@@ -4,19 +4,21 @@ class Solution {
         int[] answer = new int[len];
         
         for(int i = 0; i < len - 1; i++) {
-            int n = prices[i];
-            int cnt = 0;
+            int time = 0;
+            boolean flag = false;
             
             for(int j = i + 1; j < len; j++) {
-                cnt++;
-                if(n > prices[j]) {
-                    answer[i] = cnt;
+                time++;
+                if(prices[i] > prices[j]) {
+                    answer[i] = time;
+                    flag = true;
                     break;
                 }
-                else if(j == len-1) answer[i] = cnt;
             }
+            if(!flag) answer[i] = time;
         }
-        
+
+        answer[len - 1] = 0;
         return answer;
     }
 }
