@@ -2,28 +2,27 @@ import java.util.*;
 
 class Solution {
     public int solution(int[] priorities, int location) {
-        int[] seq = priorities.clone();
-        Arrays.sort(seq);
         Queue<Integer> que = new LinkedList<>();
-        int sIdx = priorities.length-1;
+        PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
         int cnt = 0;
         
         for(int n : priorities) {
             que.add(n);
+            pq.add(n);
         }
         
-        while(!que.isEmpty()) {
-            if(seq[sIdx] == que.peek()) {
+        while(true) {
+            int n = que.poll();
+            if(pq.peek() == n) {
+                pq.poll();
                 cnt++;
                 if(location == 0) break;
-                sIdx--;
-                que.poll();
-                
             }
             else {
-                que.add(que.poll());
+                que.add(n);
             }
-            location = (location-1 < 0) ? que.size() - 1 : location - 1;
+                location--;
+                if(location < 0) location = que.size() - 1;
         }
         
         return cnt;
