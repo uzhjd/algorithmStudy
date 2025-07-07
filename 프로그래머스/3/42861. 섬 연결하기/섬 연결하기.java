@@ -1,34 +1,25 @@
 import java.util.*;
 
 class Solution {
-    
     int[] check;
     
     public int solution(int n, int[][] costs) {
-        int answer = 0;
+        int len = costs.length;
         check = new int[n];
+        int answer = 0;
         
-        for(int i = 0; i < n; i++) {
+        for(int i = 0; i < n; i++)
             check[i] = i;
-        }
         
-        Arrays.sort(costs, new Comparator<int[]>() {
-            @Override
-            public int compare(int[] o1, int[] o2) {
-                return o1[2] - o2[2];
-            }
-        });
+        Arrays.sort(costs, (o1, o2) -> o1[2] - o2[2]);
         
         for(int[] cost : costs) {
             int from = cost[0];
-            int end = cost[1];
+            int to = cost[1];
             int dis = cost[2];
             
-            int fa = find(from);
-            int fb = find(end);
-            
-            if(fa != fb) {
-                union(from, end);
+            if(find(from) != find(to)) {
+                union(from, to);
                 answer += dis;
             }
         }
@@ -36,13 +27,14 @@ class Solution {
         return answer;
     }
     
+    public int find(int v) {
+        if(check[v] == v) return v;
+        return check[v] = find(check[v]);
+    }
+    
     public void union(int a, int b) {
         int fa = find(a);
         check[fa] = b;
-    }
-    
-    public int find(int v) {
-        if(v == check[v]) return v;
-        return check[v] = (find(check[v]));
+        
     }
 }
