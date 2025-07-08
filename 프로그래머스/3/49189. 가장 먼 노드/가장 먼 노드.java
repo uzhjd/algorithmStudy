@@ -1,48 +1,58 @@
 import java.util.*;
 
 class Solution {
-    
-    ArrayList<ArrayList<Integer>> arr = new ArrayList<>();
-    Set<Integer> set = new HashSet<>();
-    
-    public int solution(int n, int[][] edge) {
+    ArrayList<ArrayList<Integer>> list;
+    int[] count;
         
-        for(int i = 0; i <= n ; i++) {
-            arr.add(new ArrayList<>());
-        }
+    public int solution(int n, int[][] edge) {
+        list = new ArrayList<>();
+        count = new int[n + 1];
+        int answer = 0;
+        
+        for(int i = 0; i <= n; i++)
+            list.add(new ArrayList<>());
         
         for(int[] e : edge) {
             int a = e[0];
             int b = e[1];
             
-            arr.get(a).add(b);
-            arr.get(b).add(a);
+            list.get(a).add(b);
+            list.get(b).add(a);
         }
         
-        return BFS();
+        int max = BFS(n);
+        
+        for(int i = 2; i <= n; i++){
+            System.out.println(i);
+            if(count[i] == max) answer++;
+        }
+        
+        return answer;
     }
     
-    public int BFS() {
-        int len = 0;
-        Queue<Integer> q = new LinkedList<>();
-        q.add(1);
-        set.add(1);
-        
-        while(!q.isEmpty()) {
-            len = q.size();
+    public int BFS(int n) {
+        Queue<Integer> que = new LinkedList<>();
+        que.add(1); // node, distance
+        int depth = 0;
+        int max = 0;
+            
+        while(!que.isEmpty()) {
+            depth++;
+            int len = que.size();
             
             for(int i = 0; i < len; i++) {
-                int n = q.poll();
                 
-                for(int tmp : arr.get(n)) {
-                    if(!set.contains(tmp)) {
-                        q.add(tmp);
-                        set.add(tmp);
+                int idx = que.poll();
+                for(int t : list.get(idx)) {
+                    if(count[t] == 0) {
+                        count[t] = depth;
+                        que.add(t);
+                        max = Math.max(depth, max);
                     }
                 }
             }
         }
-        
-        return len;
+        return max;
     }
+    
 }
